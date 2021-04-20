@@ -129,9 +129,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 MEDIA_ROOT= os.path.join(BASE_DIR, "media")
 MEDIA_URL="/media/"
-<<<<<<< HEAD
+
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
-=======
->>>>>>> a5e641088374b22ec496a7f1ef29421a953f91d6
