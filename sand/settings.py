@@ -26,7 +26,7 @@ SECRET_KEY = '46f^i&!k94$#)8*&o71fos)x16wu_(jn%vkj3xqg0u+kuq87e*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sand-portal.herokuapp.com']
 AUTH_USER_MODEL= 'accounts.user'
 
 
