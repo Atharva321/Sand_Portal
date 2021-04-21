@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+ <br><br>
+ <!--<div style=" overflow: hidden; background-color: #a0b3cc;  background-shadow-color:#1baae2;  justify-content: center;
+ text-align:center ; text-shadow: 2px 2px 2px #1baae2; ">-->
+    <h1 style="font-size: 50px; margin-bottom: 50px;color:#4caf50; text-decoration:underline; text-align:center ;text-shadow: 10px 10px 10px #1baae2; padding: 13px 0;">Sand Merchantiser</h1>
+   
+ 
+
+
+{% if user.is_authenticated%}
+
+<div style="width: 10%;background: #fafafa;border: 2px solid #4caf50;color: white ;  align-items: center;justify-content: center;  text-align:center ;margin:auto;border-radius: 25px; display: flex;justify-content: center;box-shadow: 0 5px 0 #1baae2; padding: 0.5em 1.5em; cursor: pointer; font-size: 18px;cursor: pointer;top: 5px;">
+<a type="button" class="btn btn-block " href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out";></span>Logout</a>
+
+</div>
+<br>
+
+{% else %}
+<div style="width: 10%;background: #fafafa;border: 2px solid #4caf50;color: white; align-items: center;justify-content: center;  text-align:center ;margin:auto; border-radius: 25px; display: flex;justify-content: center;box-shadow: 0 5px 0 #1baae2; padding: 0.5em 1.5em; cursor: pointer; font-size: 18px;cursor: pointer;top: 5px;" >
+<a type="button" class="btn btn-block" href="{% url 'register' %}">Register</a> <br>
+</div>
+<br>  
+<div style="width: 10%;background: #ffffff;border: 2px solid #4caf50;color: white   align-items: center;justify-content: center;  text-align:center ; margin: auto;  border-radius: 25px;display: flex;justify-content: center;box-shadow: 0 5px 0 #1baae2; padding: 0.5em 1.5em; cursor: pointer; font-size: 18px;cursor: pointer;" >
+<a type="button" class="btn btn-block" href="{% url 'login' %}">Login</a>
+</div>
+<br>
+{% endif %}
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
