@@ -8,6 +8,9 @@ from .models import User , Contact , Product
 from math import ceil
 
 from django.http import HttpResponse
+class user_name:
+  username = 'abc'
+
 
 def register(request):
     return render(request, '../templates/register.html')
@@ -31,13 +34,15 @@ class dealer_register(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('/')
-
+#user = username
 
 def login_request(request):
     if request.method=='POST':
         form = AuthenticationForm(data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            
+            user_name.username = form.cleaned_data.get('username')
+            username = user_name.username
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
             if user is not None :
@@ -81,9 +86,11 @@ def login_request(request):
 def home(request):
     #if user.is_customer is True:
         print(1)
-        username = 'gaikwadrupeshl515@gmail.com'
+        #username = 'gaikwadrupeshl515@gmail.com'
 
-        user = User.objects.filter(username=username)
+        user = user_name.username #User.objects.filter(username=username)
+        user = User.objects.filter(username=user)
+
 
         allProds = []
         catprods = Product.objects.values('category', 'id')
