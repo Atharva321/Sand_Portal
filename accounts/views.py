@@ -4,7 +4,9 @@ from django.contrib import messages
 from django.views.generic import CreateView
 from .form import CustomerSignUpForm, DealerSignUpForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User , Contact
+from .models import User , Contact , Product
+from math import ceil
+
 from django.http import HttpResponse
 
 def register(request):
@@ -40,35 +42,34 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None :
                 login(request,user)
-                #return HttpResponse(user.is_customer)
 
                 print(username)
                 if user.is_customer is True:
                     print(1)
+
+
                     user = User.objects.filter(username=username)
-                    return render(request, '../templates/order.html', {'me': user[0]})
-                else:
+
+                    allProds = []
+                    catprods = Product.objects.values('category', 'id')
+                    cats = {item['category'] for item in catprods}
+                    for cat in cats:
+                        prod = Product.objects.filter(category=cat)
+                        n = len(prod)
+                        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+                        allProds.append([prod, range(1, nSlides), nSlides])
+
+                    params = {'allProds': allProds,'me': user[0]}
+                    return render(request, '../templates/order.html', params)
+
+
+                    #return render(request, '../templates/order.html', {'me': user[0]}, params)
+                if user.is_dealer is True:
                     print(2)
-
-                    return render(request, '../templates/order.html',{'me':user[0]})
-
+                    user = User.objects.filter(username=username)
 
 
-
-                """
-                #print(1)
-                user = User.objects.filter(username=username)
-                if user from User.is:
-                    print(1)
-                    client = int(1)
-                    return render(request, '../templates/order.html', {'me': user[0]},client)
-                    return HttpResponse('customer id')
-                else:
-                    print(2)
-                    return render(request, '../templates/order.html',{'me':user[0]})
-                    return HttpResponse('dealer id')
-                    """
-
+                    return render(request, '../templates/dealar.html',{'me': user[0]})
 
             else:
                 messages.error(request,"Invalid username or password")
@@ -76,6 +77,26 @@ def login_request(request):
                 messages.error(request,"Invalid username or password")
     return render(request, '../templates/login.html',
     context={'form':AuthenticationForm()})
+
+def home(request):
+    #if user.is_customer is True:
+        print(1)
+        username = 'gaikwadrupeshl515@gmail.com'
+
+        user = User.objects.filter(username=username)
+
+        allProds = []
+        catprods = Product.objects.values('category', 'id')
+        cats = {item['category'] for item in catprods}
+        for cat in cats:
+            prod = Product.objects.filter(category=cat)
+            n = len(prod)
+            nSlides = n // 4 + ceil((n / 4) - (n // 4))
+            allProds.append([prod, range(1, nSlides), nSlides])
+
+        params = {'allProds': allProds, 'me': user[0]}
+        return render(request, '../templates/order.html', params)
+
 
 def logout_view(request):
     logout(request)
@@ -89,3 +110,42 @@ def contact(request):
         contact = Contact(name=name, email=email, phone=phone, desc=desc)
         contact.save()
     return render(request,'contact.html')
+
+def feedback(request):
+    if request.method=="POST":
+        name = request.POST.get('name', '')
+        email = request.POST.get('email', '')
+        phone = request.POST.get('phone', '')
+        address = request.POST.get('address','')
+        desc = request.POST.get('desc', '')
+        feedback = feedback(name=name, email=email, phone=phone ,address=address, desc=desc )
+        feedback.save()
+    return render(request,'feedback.html')      
+
+
+def order(request):
+        if request.method=="POST":
+            name = request.POST.get('name', '')
+            email = request.POST.get('email', '')
+            phone = request.POST.get('phone', '')
+            address = request.POST.get('address', '')
+            city = request.POST.get('city', '') 
+            state = request.POST.get('state', '')  
+            zip =  request.POST.get('zip', '')
+            cardname =  request.POST.get('cardname', '')
+            cardnumber =  request.POST.get('cardnumber', '')
+            month = request.POST.get('month', '')
+            year =  request.POST.get('year', '')
+            cvv =  request.POST.get('cvv', '')
+            order = order(name=name, email=email, phone=phone, address=address, city=city, state=state, zip=zip, cardname=cardname, cardnumber=cardnumber, month=month, year=year, cvv=cvv)
+            order.save()
+            messages.success(request, 'SUCCESS! Order Placed. Amazing things will happen when we got consumers like you. Thank You!')
+            
+        return render(request,'order.html')
+
+
+def product(request):
+    return render(request,'../templates/product.html')    
+
+def profile(request):
+    return render(request,'../templates/profile.html') 

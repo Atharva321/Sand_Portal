@@ -1,13 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
-CHOICES = (
-    ('area1', 'zone1'),
-    ('area2', 'zone2'),
-    ('area3', 'zone3'),
-    ('area4', 'zone4'),
-    ('area5', 'zone5'),
-)
+
 
 class User(AbstractUser):
     is_customer = models.BooleanField(default=False)
@@ -38,4 +32,17 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
+
+class Product(models.Model):
+    product_id = models.AutoField
+    product_name = models.CharField(max_length=50)
+    category = models.CharField(max_length=50, default="")
+    subcategory = models.CharField(max_length=50, default="")
+    price = models.IntegerField(default=0)
+    desc = models.CharField(max_length=300)
+    pub_date = models.DateField()
+    image = models.ImageField(upload_to='sand/images', default="")
+
+    def __str__(self):
+        return self.product_name
 
