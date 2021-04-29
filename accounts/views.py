@@ -4,13 +4,14 @@ from django.contrib import messages
 from django.views.generic import CreateView
 from .form import CustomerSignUpForm, DealerSignUpForm
 from django.contrib.auth.forms import AuthenticationForm
-from .models import User , Contact , Product
+from .models import User , Contact , Product 
 from math import ceil
 
 from django.http import HttpResponse
 class user_name:
-  username = 'abc'
-
+    username = 'cse'                  # Class Variable
+    
+user_name = user_name()
 
 def register(request):
     return render(request, '../templates/register.html')
@@ -156,3 +157,12 @@ def product(request):
 
 def profile(request):
     return render(request,'../templates/profile.html') 
+  
+def about(request):
+    return render(request,'../templates/about.html')
+def privacypolicy(request):
+    return render(request,'../templates/privacypolicy.html')
+
+def checkout(request):
+    return render(request,'../templates/checkout.html')
+

@@ -13,5 +13,10 @@ urlpatterns=[
      path('order/',views.order, name='order'),
      path('feedback/',views.feedback, name='feedback'),
      path('home/', views.home, name='home'),
+     path('about/', views.about, name='about'),
+     path("privacypolicy/", views.privacypolicy, name="privacypolicy"),
+     path("checkout/", views.checkout, name="checkout"),
+     
+
 
 ]
