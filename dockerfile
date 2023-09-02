@@ -1,7 +1,25 @@
-RUN yum install git -y
-RUN yum install python3 -y
-RUN pip3 install django django_widget_tweaks pillow
-RUN git clone --single-branch --branch sandv3 https://github.com/Atharva321/Sand_Portal.git
+FROM python:3.8-slim
+
+ENV PATH="${PATH}:/home/admin/.local/bin"
+
+RUN apt-get update && apt-get install libpq-dev build-essential -y && apt-get clean &&\
+    rm -rf /usr/games && \
+    mkdir -p  /usr/django_sand_portal
+
+RUN  addgroup django && \
+     adduser --disabled-password --ingroup django --gecos '' admin && \
+     chown -R admin:django /usr/django_sand_portal 
+
+COPY ./requirements.txt /usr/django_sand_portal/
+
+WORKDIR /usr/django_sand_portal
+
+USER admin
+
+RUN pip install -r requirements.txt
+
+COPY . /usr/django_sand_portal/
+
 EXPOSE 8000
 
-CMD ["python3","./Sand_Portal/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python",  "manage.py",  "runserver",  "0.0.0.0:8000"]
